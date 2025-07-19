@@ -5,8 +5,12 @@
 1. Webhook (Trigger)
    - Method: POST
 2. Http Request
-   - Abuseipdb
-3. If (True, False)
+   - It uses Abuseipdb's API V2.
+   - Method: POST
+   - Header: X-Auth-Token, Accept
+3. If
+   - If it is True, then directs to Telegram and Google Sheet.
+   - If it is False, then directs to Google Sheet only.
 4. Google Sheets
 
    It Stores the following data into Google sheets.
@@ -14,7 +18,8 @@
    - Score
    - Country Code
    - Domain
-6. Telegram (Leave a chat)
+5. Telegram
+   - Operation: Leave a chat
    - Telegram Bot [(Link)](https://t.me/@XploitNow_Bot)
 
 ### Credentials Used
