@@ -6,7 +6,7 @@ This project is an automated, cloud-based **Intrusion Detection and Prevention S
 
 ## 🔁 n8n Workflow Overview
 
-### 🧩 Node Usage
+### Node Usage
 
 1. **Webhook** (Trigger)
    - Method: `POST`
