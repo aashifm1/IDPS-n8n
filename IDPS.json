@@ -19,7 +19,7 @@
     },
     {
       "parameters": {
-        "url": "=https://api.abuseipdb.com/api/v2/check?ipAddress={{$json[\"ip\"]}}&maxAgeInDays=90",
+        "url": "https://api.abuseipdb.com/api/v2/check?ipAddress={{$json[\"ip\"]}}&maxAgeInDays=90",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
@@ -56,7 +56,7 @@
           "conditions": [
             {
               "id": "a326954c-635d-4bc3-bf00-16cd9d8303e0",
-              "leftValue": "={{$json[\"data\"][\"abuseConfidenceScore\"]}}",
+              "leftValue": "{{$json[\"data\"][\"abuseConfidenceScore\"]}}",
               "rightValue": 50,
               "operator": {
                 "type": "array",
