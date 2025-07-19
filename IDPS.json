@@ -1,0 +1,339 @@
+{
+  "name": "IDPS",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "detect-ip",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -704,
+        144
+      ],
+      "id": "dec7161d-9469-482c-80a7-e5da7396986b",
+      "name": "Webhook",
+      "webhookId": "0545aaef-96ae-4271-80bb-60099ffa0a59"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.abuseipdb.com/api/v2/check?ipAddress={{$json[\"ip\"]}}&maxAgeInDays=90",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-Auth-Token",
+              "value": "=101401457845fce645e0225b5109ba2a307aba08cfe35bd17220b045721293e41f4c9939da4fd4c9"
+            },
+            {
+              "name": "=Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -528,
+        16
+      ],
+      "id": "3ec9241d-c8b5-4841-a2d2-9e22961dba65",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "a326954c-635d-4bc3-bf00-16cd9d8303e0",
+              "leftValue": "={{$json[\"data\"][\"abuseConfidenceScore\"]}}",
+              "rightValue": 50,
+              "operator": {
+                "type": "array",
+                "operation": "lengthGt",
+                "rightType": "number"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -192,
+        128
+      ],
+      "id": "f524f960-0257-4987-92ab-33eb98978957",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "resource": "chat",
+        "operation": "leave",
+        "chatId": "8154683270"
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        160,
+        128
+      ],
+      "id": "1a805c6b-ff30-4b15-8cf4-9ed349f8381c",
+      "name": "Leave a chat",
+      "webhookId": "a33084b2-19f4-42be-9dde-280bbce0367c",
+      "credentials": {
+        "telegramApi": {
+          "id": "PFa5lxsLouLFzcUl",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1C9YyMNDeMAcqfKINSCj3MM-89hFMOXT4BrQT7AMJcKw",
+          "mode": "list",
+          "cachedResultName": "ID&PS",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1C9YyMNDeMAcqfKINSCj3MM-89hFMOXT4BrQT7AMJcKw/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1C9YyMNDeMAcqfKINSCj3MM-89hFMOXT4BrQT7AMJcKw/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Address": "{{$json[\"data\"][\"ipAddress\"]}}",
+            "Score": "{{$json[\"data\"][\"abuseConfidenceScore\"]}}",
+            "Country Code": "{{$json[\"data\"][\"countryCode\"]}}",
+            "Domain": "{{$json[\"data\"][\"domain\"]}}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Address",
+              "displayName": "Address",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Score",
+              "displayName": "Score",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Country Code",
+              "displayName": "Country Code",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Domain",
+              "displayName": "Domain",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        -304,
+        416
+      ],
+      "id": "616003a9-2dc7-4787-8caf-f7938796db8c",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "PnqlRA9ULQl0BvEZ",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Webhook\n**Webhook's Url:**  [Link](https://aashifm.app.n8n.cloud/webhook-test/detect-ip)\n**Method:** POST\n**Path:** detect-ip",
+        "height": 128,
+        "width": 208
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -816,
+        304
+      ],
+      "typeVersion": 1,
+      "id": "b3a9862c-b49c-4727-bd49-b44a4d50685a",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## HTTP Request\n**API:** Abuseipdb\n**Headers:**\n- X-Auth-Token: Api-V2\n- Accept: application/json\n\n**Error:** Authorization failed - please check your credentials\nAuthentication failed. Your API key is either missing, incorrect, or revoked. Note: The APIv2 key differs from the APIv1 key.",
+        "height": 240,
+        "width": 432
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -688,
+        -256
+      ],
+      "typeVersion": 1,
+      "id": "9bbbdf1d-98b8-4d66-a5a7-1e3f4cec6d89",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## Google Sheets\nConsists of 4 things: \n- Address\n- Score\n- Country Code\n- Domain",
+        "height": 176,
+        "width": 208
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -384,
+        592
+      ],
+      "typeVersion": 1,
+      "id": "9603f25f-2213-43f4-bd79-46c61cdc21fa",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## Telegram\nThis gives alert to Telegram Bot (@XploitNow_Bot) ",
+        "height": 128,
+        "width": 160
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        128,
+        -48
+      ],
+      "typeVersion": 1,
+      "id": "9905e82e-e162-453c-a606-cdc190925f83",
+      "name": "Sticky Note3"
+    }
+  ],
+  "pinData": {
+    "Append row in sheet": [
+      {
+        "json": {
+          "name": "First item",
+          "code": 1
+        }
+      },
+      {
+        "json": {
+          "name": "Second item",
+          "code": 2
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Leave a chat",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "b23cd4bb-0587-4759-8d2b-bba71e32a472",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "ac590e3db4ed826a7dd7b7dabb7aaa6147e92dba6ff95d41e3215f889863dc8c"
+  },
+  "id": "gYOX1RkkNX6rCuf3",
+  "tags": [
+    {
+      "createdAt": "2025-07-18T13:44:49.580Z",
+      "updatedAt": "2025-07-18T13:44:49.580Z",
+      "id": "6Pm9Bu4f8BhJVePv",
+      "name": "cyber-security"
+    },
+    {
+      "createdAt": "2025-07-18T13:44:34.852Z",
+      "updatedAt": "2025-07-18T13:44:34.852Z",
+      "id": "CH8fwmnxFbuAxLIi",
+      "name": "idps"
+    }
+  ]
+}
