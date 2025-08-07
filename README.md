@@ -1,4 +1,4 @@
-# 🛡️ Intrusion Detection and Prevention System (IDPS) – Integrated with n8n
+# Intrusion Detection and Prevention System (IDPS) – Integrated with n8n
 
 This project is an automated, cloud-based **Intrusion Detection and Prevention System (IDPS)** built using [n8n](https://n8n.io). It checks suspicious IP addresses against **AbuseIPDB**, sends alerts via **Telegram**, and logs threat data to **Google Sheets** — making it easy to monitor and react to abuse in real time.
 
@@ -37,7 +37,7 @@ This project is an automated, cloud-based **Intrusion Detection and Prevention S
 
 ---
 
-## 🔐 Credentials Used
+## Credentials Used
 
 | Service        | Purpose                                | Link                                  |
 |----------------|----------------------------------------|---------------------------------------|
