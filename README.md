@@ -2,7 +2,6 @@
 
 This project is an automated, cloud-based **Intrusion Detection and Prevention System (IDPS)** built using [n8n](https://n8n.io). It checks suspicious IP addresses against **AbuseIPDB**, sends alerts via **Telegram**, and logs threat data to **Google Sheets** — making it easy to monitor and react to abuse in real time.
 
----
 
 ## 🔁 n8n Workflow Overview
 
@@ -35,7 +34,7 @@ This project is an automated, cloud-based **Intrusion Detection and Prevention S
    - Operation: `Leave a chat`
    - [View Bot](https://t.me/XploitNow_Bot)
 
----
+
 
 ## Credentials Used
 
@@ -45,7 +44,6 @@ This project is an automated, cloud-based **Intrusion Detection and Prevention S
 | Telegram Bot   | Send alerts                            | [@BotFather](https://t.me/BotFather) |
 | Google Sheets  | Log IP data                            | Sign in via Google OAuth in n8n       |
 
----
 
 ## Usage
 
